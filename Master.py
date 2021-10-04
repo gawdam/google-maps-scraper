@@ -234,7 +234,7 @@ search_page = html.Div([
 def update_table(api_key,location,keyword, fields_list,n_clicks):
     if n_clicks==0:
         raise PreventUpdate
-    if api_key == None:
+    if not APIcheck(api_key):
         return location,keyword,0, search_page_api_error,None,None,None, {'display': 'none'}
     else:
         df = get_details(api_key, location, keyword, fields_list)
