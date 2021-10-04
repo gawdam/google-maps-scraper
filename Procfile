@@ -1,2 +1,1 @@
-web: gunicorn
-Master:server
+web: gunicorn Master:server
