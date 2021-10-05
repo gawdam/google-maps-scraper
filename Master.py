@@ -148,7 +148,7 @@ input_box = dbc.Card([
         search_button
     ]), style={'width': '80%', 'height': '80%', 'margin-left': 'auto', 'margin-right': 'auto', 'padding-top': '25px'}),
     html.Div(id='search-page-api-error')
-])
+],style={'width':'35vh'})
 
 loading = dcc.Loading(
     id="loading",
@@ -184,6 +184,13 @@ table = html.Div(dbc.Card([
         id='table',
         columns=[],
         export_format='csv',
+        sort_action="native",
+        sort_mode='multi',
+        export_headers='display',
+        row_deletable=True,
+        selected_rows=[],
+        page_action='native',
+        page_current=0,
     ),
 ]), id='table-box', style={'display': 'None'})
 
@@ -247,7 +254,7 @@ def update_table(api_key, location, keyword, fields_list, n_clicks):
         return location, keyword, 0, search_page_api_error, None, None, None, {'display': 'none'}
     else:
         df = get_details(api_key, location, keyword, fields_list)
-        columns = [{'name': col, 'id': col} for col in df.columns]
+        columns = [{'name': col, 'id': col , 'deletable': True} for col in df.columns]
         data = df.to_dict(orient='records')
         return location, keyword, 0, '', columns, data, None, {'display': 'Block'}
 
