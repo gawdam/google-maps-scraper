@@ -28,8 +28,13 @@ def plot_location(api_key, location):
     theta = np.arange(0, 2*math.pi, math.pi / num_points)
     x_coord = [float(coord[0]) + radius * math.cos(x) for x in theta]
     y_coord = [float(coord[1]) + radius * math.sin(x) for x in theta]
+    zoom_level = 4 / radius ** (0.3)
+    print(radius)
 
-
+    if radius<0.01:
+        zoom_level = 14
+    elif radius<0.02:
+        zoom_level = 12
     fig = go.Figure(go.Scattermapbox(
         fill="toself",
         lon=y_coord, lat=x_coord,
@@ -40,7 +45,7 @@ def plot_location(api_key, location):
         mapbox={
             'style': "stamen-terrain",
             'center': {'lon': float(coord[1]), 'lat': float(coord[0])},
-            'zoom': 10},
+            'zoom': zoom_level},
         showlegend=False)
 
     return fig
