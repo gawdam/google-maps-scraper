@@ -156,7 +156,7 @@ loading = dcc.Loading(
     type="circle",
 )
 
-table = html.Div(dbc.Card([
+table = html.Div(html.Div(dbc.Card([
     dash_table.DataTable(
         style_data={
             'whiteSpace': 'normal',
@@ -192,7 +192,7 @@ table = html.Div(dbc.Card([
         page_action='native',
         page_current=0,
     ),
-]), id='table-box', style={'display': 'None'})
+]), id='table-box', style={'display': 'None'}),id='table-box2', style={'display': 'None'})
 
 search_page_api_error = dbc.Alert(
     [
@@ -224,6 +224,8 @@ search_page = html.Div([
     ], justify='center'),
     html.Br(),
     html.Div(loading, style={'text-align': 'center'}),
+    html.Br(),
+    html.Br(),
 
     dbc.Row([
         dbc.Col(table, width={'size': 10, 'offset': 1}),
@@ -251,7 +253,7 @@ def update_table(api_key, location, keyword, fields_list, n_clicks):
     if n_clicks == 0 or location is None or keyword is None:
         raise PreventUpdate
     if not APIcheck(api_key):
-        return location, keyword, 0, search_page_api_error, None, None, None, {'display': 'none'}
+        return location, keyword, 0, search_page_api_error, None, None, None, {'display': 'None'}
     else:
         df = get_details(api_key, location, keyword, fields_list)
         columns = [{'name': col, 'id': col , 'deletable': True} for col in df.columns]
@@ -259,6 +261,12 @@ def update_table(api_key, location, keyword, fields_list, n_clicks):
         return location, keyword, 0, '', columns, data, None, {'display': 'Block'}
 
 
+@app.callback(Output('table-box2','style'),[Input('table-box','style'),Input('search-button','n_clicks')])
+def remove_table(style,n_clicks):
+    if n_clicks==0 or style=={'display': 'None'}:
+        return {'display':'Block'}
+    else:
+        return {'display': 'None'}
 # ----------------------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -266,7 +274,8 @@ def update_table(api_key, location, keyword, fields_list, n_clicks):
 app.layout = html.Div([
     dcc.Store(id='api-key-storage', storage_type='session'),
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content'),
+    html.Div(dcc.Link('FEEDBACK FORM', href='https://forms.gle/BRHXfLUpk8bdNk52A', style={'font-size': '15px'}), style={'text-align': 'center'})
 ])
 
 
