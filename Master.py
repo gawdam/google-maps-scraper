@@ -19,7 +19,7 @@ key_input = dbc.FormGroup(
         dbc.Input(id="api_key", placeholder="API key"),
         dbc.FormText(
             ["Don't have an API key? Get one ",
-             dcc.Link('here', href='https://developers.google.com/maps/documentation/places/web-service/overview'), ],
+             dcc.Link('here', target="_blank",href='https://developers.google.com/maps/documentation/places/web-service/overview'), ],
             color="secondary",
         ),
 
