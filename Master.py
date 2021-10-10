@@ -275,7 +275,7 @@ app.layout = html.Div([
     dcc.Store(id='api-key-storage', storage_type='session'),
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
-    html.Div(dcc.Link('FEEDBACK FORM', href='https://forms.gle/BRHXfLUpk8bdNk52A', style={'font-size': '15px'}), style={'text-align': 'center'})
+    html.Div(dcc.Link('FEEDBACK FORM', href='https://forms.gle/BRHXfLUpk8bdNk52A', target="_blank", style={'font-size': '15px'}), style={'text-align': 'center'})
 ])
 
 
