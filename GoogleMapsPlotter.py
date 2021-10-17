@@ -40,6 +40,7 @@ def plot_location(api_key, location):
         lon=y_coord, lat=x_coord,
         marker={'size': 5, 'color': "orange"}))
     fig.update_layout(
+        height=492,
         autosize=True,
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         mapbox={

@@ -114,7 +114,8 @@ switches = dbc.FormGroup(
                 {"label": "Website", "value": 'website'},
                 {"label": "Price Level", "value": 'price_level'},
                 {"label": "Google Rating", "value": 'rating'},
-                {"label": "Open Now?", "value": 'opening_hours'}
+                {"label": "Open Now?", "value": 'opening_hours'},
+                {"label": "Email (takes longer)", "value": 'email'},
             ],
             value=['formatted_phone_number', 'formatted_address', 'website'],
             id="switches-input",
@@ -162,17 +163,7 @@ table = html.Div(html.Div(dbc.Card([
             'whiteSpace': 'normal',
             'height': 'auto',
             'lineHeight': '15px',
-        },
-        style_cell_conditional=[
-            {'if': {'column_id': 'row_num'},
-             'width': '10%'},
-            {'if': {'column_id': 'name'},
-             'width': '20%'},
-            {'if': {'column_id': 'formatted_phone_number'},
-             'width': '20%'},
-            {'if': {'column_id': 'formatted_address'},
-             'width': '50%'},
-        ]
+        }
         ,
         style_cell={
             'text-align': 'left', 'fontSize': 12, 'font-family': 'verdana'

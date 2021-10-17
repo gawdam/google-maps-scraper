@@ -4,7 +4,9 @@ import json
 import geopy.distance
 import numpy as np
 from time import sleep
-
+import re
+from requests_html import HTMLSession
+import validators
 
 def get_details(api_key, location, keyword, fields_list):
 
@@ -51,6 +53,12 @@ def get_details(api_key, location, keyword, fields_list):
 
     #
     results = []
+    email_flag = 0
+    if 'email' in fields_list:
+        fields_list.remove('email')
+        email_flag = 1
+        if 'website' not in fields_list:
+            fields_list.append('website')
     fields_list.insert(0,'name')
     fields = '%2C'.join(fields_list)
     for place_id in df.place_id:
@@ -72,7 +80,24 @@ def get_details(api_key, location, keyword, fields_list):
     df.insert(1, 'name', second_column)
     if 'opening_hours' in df.columns:
         df['opening_hours'] = [x['open_now'] if type(x) == dict else "-" for x in df['opening_hours']]
-    df = df.rename(columns={'name':'Name','formatted_phone_number':'Phone Number','formatted_address':'Address','opening_hours':'Open Now','rating':'Rating','price_level':'Price Level','website':'Website'})
+
+    EMAIL_REGEX = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.com"
+    if email_flag:
+        session = HTMLSession()
+        emails = []
+        for url in df.website:
+            try:
+                r = session.get(url)
+                email = ''
+                for re_match in re.finditer(EMAIL_REGEX, r.html.raw_html.decode()):
+                    if re_match.group() not in email:
+                        email = email + re_match.group() + "\n"
+                emails.append(email)
+            except:
+                emails.append(' ')
+        print(len(emails))
+        df['email'] = emails
+    df = df.rename(columns={'name':'Name','formatted_phone_number':'Phone Number','formatted_address':'Address','opening_hours':'Open Now','rating':'Rating','price_level':'Price Level','website':'Website','email':'Email'})
     return df
 
 
