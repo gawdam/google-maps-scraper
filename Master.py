@@ -50,6 +50,8 @@ success_message = dbc.Alert(
     color="success",
 )
 failure_message = dbc.Alert("This API is invalid!", color="danger", )
+limit_exceeded_message = dbc.Alert("Daily quota exceeded for this API!", color="warning", )
+
 # ----------------------------------------------------------------------------------------------------------------------------
 
 index_page = dbc.Container(
@@ -88,10 +90,11 @@ def verify(api_key, n_clicks):
     if n_clicks is None or api_key == None:
         raise PreventUpdate
     else:
-        if APIcheck(api_key):
+        if APIcheck(api_key)=='success':
             return success_message, api_key, 0
-        else:
-            return failure_message, api_key, 0
+        elif APIcheck(api_key)=='OVER_QUERY_LIMIT':
+            return limit_exceeded_message, api_key, 0
+        return failure_message, api_key, 0
 
 
 # ----------------------------------------------------------------------------------------------------------------------------
@@ -243,7 +246,7 @@ search_page = html.Div([
 def update_table(api_key, location, keyword, fields_list, n_clicks):
     if n_clicks == 0 or location is None or keyword is None:
         raise PreventUpdate
-    if not APIcheck(api_key):
+    if APIcheck(api_key) !='success':
         return location, keyword, 0, search_page_api_error, None, None, None, {'display': 'None'}
     else:
         df = get_details(api_key, location, keyword, fields_list)
