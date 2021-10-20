@@ -81,7 +81,7 @@ def get_details(api_key, location, keyword, fields_list):
     if 'opening_hours' in df.columns:
         df['opening_hours'] = [x['open_now'] if type(x) == dict else "-" for x in df['opening_hours']]
 
-    EMAIL_REGEX = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.com"
+    EMAIL_REGEX = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\(.com|.in)"
     if email_flag:
         session = HTMLSession()
         emails = []

@@ -63,7 +63,7 @@ index_page = dbc.Container(
             [
                 dbc.Col(
                     html.H2(
-                        html.B("Lead Generation"),
+                        html.B("Leads Generator"),
                         className="text-center mt-4 mb-5",
                         style={"color": "Black", "text-decoration": "None", },
                     )
@@ -203,7 +203,7 @@ search_page = html.Div([
              style={'padding-left': '20px', 'padding-top': '20px'}),
 
     html.H2(
-        html.B("Lead Generation"),
+        html.B("Leads Generator"),
         className="text-center mt-4 mb-5",
         style={"color": "Black", "text-decoration": "None", },
     ),
